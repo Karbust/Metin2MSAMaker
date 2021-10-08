@@ -45,8 +45,7 @@ public:
 
 	CModel*		RegisterModel(const fs::path& path);
 	CModel*		GetModel(const fs::path& path);
-
-	// findDepth : 검색 깊이 설정. 1이면 현재 path와 같은 디렉토리에서만 검색한다.
+	
 	CModel*		AutoRegisterAndGetModel(const fs::path& path, int findDepth = 1);
 	
 	void		Destroy();

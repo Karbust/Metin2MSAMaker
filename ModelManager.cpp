@@ -77,8 +77,6 @@ CModelManager::~CModelManager()
 	Destroy();
 }
 
-// 주어진 경로와 그 상위 경로에서 그래니 모델 파일을 찾오보고 있으면 등록한 후 찾은거 리턴
-// depth가 1이면 상위 폴더까지 탐색, 늘어날수록 그 상위까지 찾음
 CModel* CModelManager::AutoRegisterAndGetModel(const fs::path& initPath, int depth)
 {
 	fs::path curPath = initPath;
@@ -109,8 +107,7 @@ CModel* CModelManager::RegisterModel(const fs::path& path)
 	const std::string key = path.parent_path().string();
 
 	CModel* model = GetModel(key);
-
-	// 같은 key 로 등록된 게 있으면 그냥 무조건 true 리턴. 진짜 같은지 그런거 검사 안함여 귀찮
+	
 	if (0 != model)
 		return model;
 	
