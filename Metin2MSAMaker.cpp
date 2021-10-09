@@ -186,7 +186,9 @@ EResult MakeMSA(const fs::path& filePath, std::string* outMsg = 0)
 
 			modelMatrix[0][0] = modelMatrix[1][1] = modelMatrix[2][2] = modelMatrix[3][3] = 1.0f;
 			GrannyUpdateModelMatrix(modelInstance, animation->Duration - 0.000001f, (const float*)modelMatrix, (float*)modelMatrix, false);
-			
+
+			modelMatrix[3][1] = animation->TrackGroups[trackIndex]->LoopTranslation[1];
+
 			if (40.0f < fabs(modelMatrix[3][1]))
 				bIsAccumulationMotion = true;
 
