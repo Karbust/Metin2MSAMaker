@@ -18,12 +18,10 @@
 #include <vector>
 #include <string>
 #include <cstring>
+#include <cassert>
 
-#include <boost/assert.hpp>
-#include <boost/unordered_map.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/fstream.hpp>
+#include <fstream>
+#include <unordered_map>
+#include <filesystem>
 
-
-namespace fs = boost::filesystem;
+namespace fs = std::filesystem;

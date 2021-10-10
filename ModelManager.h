@@ -33,7 +33,7 @@ protected:
 	CModelManager();
 
 public:
-	typedef	boost::unordered_map<std::string, CModel*>	TModelCache;	
+	typedef	std::unordered_map<std::string, CModel*>	TModelCache;	
 
 public:
 	virtual ~CModelManager();

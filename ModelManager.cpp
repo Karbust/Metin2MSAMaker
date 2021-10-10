@@ -14,13 +14,13 @@ CModel::~CModel()
 
 bool CModel::Load(const fs::path& path)
 {
-	BOOST_VERIFY(fs::is_regular_file(path));
+	assert(fs::is_regular_file(path));
 
 	granny_file* m_file = GrannyReadEntireFile(path.string().c_str());
 	granny_file_info* m_fileInfo = GrannyGetFileInfo(m_file);
 	granny_file_info* info = m_fileInfo;
 
-	BOOST_VERIFY(1 == info->ModelCount);
+	assert(1 == info->ModelCount);
 
 	m_model = info->Models[0];
 
@@ -46,20 +46,21 @@ bool CModel::IsGrannyFile(const fs::path& path)
 	if (false == fs::is_regular_file(path))
 		return false;
 
-	std::string ext = boost::algorithm::to_lower_copy(path.extension().string());
+	std::string ext = path.extension().string();
+	std::transform(ext.begin(), ext.end(), ext.begin(), [&](unsigned char c) { return std::tolower(c); });
 
 	return ext == ".gr2";
 }
 
 bool CModel::IsGrannyModelFile(const fs::path& path)
 {
-	BOOST_VERIFY(fs::is_regular_file(path) && "File not found!");
+	assert(fs::is_regular_file(path) && "File not found!");
 
 	granny_file* file = GrannyReadEntireFile(path.string().c_str());
-	BOOST_VERIFY(file && "Failed to open granny file");
+	assert(file && "Failed to open granny file");
 
 	granny_file_info* info = GrannyGetFileInfo(file);
-	BOOST_VERIFY(file && "Failed to read granny file info");
+	assert(file && "Failed to read granny file info");
 
 	const bool bResult = 0 < info->ModelCount;
 

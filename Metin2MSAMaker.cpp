@@ -6,7 +6,7 @@
 
 #include "ModelManager.h"
 
-#pragma comment (lib, "granny2.lib")
+#pragma comment (lib, "granny2_static.lib")
 
 typedef std::list<fs::path>	TPathInfoList;
 
@@ -16,12 +16,12 @@ bool FileIntoString(const fs::path& path, std::string* outString = NULL)
 {
 	assert(NULL != outString);
 
-	fs::ifstream fs;
+	std::ifstream ifs;
 	std::string line;
 
-	fs.open(path, std::ios::in);
+	ifs.open(path, std::ios::in);
 	
-	if (!fs.is_open())
+	if (!ifs.is_open())
 	{
 		char errorMsg[255] = {0, };
 		strerror_s(errorMsg, sizeof(errorMsg), errno);
@@ -33,9 +33,9 @@ bool FileIntoString(const fs::path& path, std::string* outString = NULL)
 
 	outString->clear();
 
-	fs.clear();
+	ifs.clear();
 
-	while(std::getline(fs, line))
+	while(std::getline(ifs, line))
 		outString->append(line);
 
 	return true;
@@ -62,8 +62,10 @@ bool IsNeedCalcAccumulation(const fs::path& path)
 	static std::string s_NeedCalcAccumulations[] = {"walk", "run" };
 
 	std::locale locale;
-	const std::string filename = boost::algorithm::to_lower_copy(path.string());
-
+	std::string filename = path.filename().string();
+	
+	std::transform(filename.begin(), filename.end(), filename.begin(), [&](unsigned char c) { return std::tolower(c); });
+	
 	for (size_t i = 0; i < _countof(s_NeedCalcAccumulations); ++i)
 	{
 		if (filename.find(s_NeedCalcAccumulations[i]) != std::string::npos)
@@ -264,7 +266,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		
 		if (bIsDirectory)
 		{
-			for (boost::filesystem::recursive_directory_iterator end, dir_iter(inPath); dir_iter != end; ++dir_iter)
+			for (fs::recursive_directory_iterator end, dir_iter(inPath); dir_iter != end; ++dir_iter)
 			{
 				const fs::path& curPath = *dir_iter;
 
